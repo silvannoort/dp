@@ -1,6 +1,7 @@
 package nl.hu.dp.dao;
 
 import nl.hu.dp.model.Reiziger;
+import nl.hu.dp.model.Adres;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,9 +9,11 @@ import java.util.List;
 
 public class ReizigerDAOPsql implements ReizigerDAO {
     private Connection conn;
+    private AdresDAO adao;
 
     public ReizigerDAOPsql(Connection conn) {
         this.conn = conn;
+
     }
 
     @Override
@@ -22,8 +25,15 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             ps.setString(3, reiziger.getTussenvoegsel());
             ps.setString(4, reiziger.getAchternaam());
             ps.setDate(5, reiziger.getGeboortedatum());
-            return ps.executeUpdate() > 0;
+
+            if (ps.executeUpdate() > 0) {
+                if (reiziger.getAdres() != null) {
+                    adao.save(reiziger.getAdres());
+                }
+                return true;
+            }
         }
+        return false;
     }
 
     @Override
@@ -35,8 +45,15 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             ps.setString(3, reiziger.getAchternaam());
             ps.setDate(4, reiziger.getGeboortedatum());
             ps.setInt(5, reiziger.getId());
-            return ps.executeUpdate() > 0;
+
+            if (ps.executeUpdate() > 0) {
+                if (reiziger.getAdres() != null) {
+                    adao.update(reiziger.getAdres());
+                }
+                return true;
+            }
         }
+        return false;
     }
 
     @Override
@@ -44,8 +61,15 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         String query = "DELETE FROM reiziger WHERE reiziger_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, reiziger.getId());
-            return ps.executeUpdate() > 0;
+
+            if (ps.executeUpdate() > 0) {
+                if (reiziger.getAdres() != null) {
+                    adao.delete(reiziger.getAdres());
+                }
+                return true;
+            }
         }
+        return false;
     }
 
     @Override
@@ -55,8 +79,11 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new Reiziger(rs.getInt("reiziger_id"), rs.getString("voorletters"),
+                Reiziger reiziger = new Reiziger(rs.getInt("reiziger_id"), rs.getString("voorletters"),
                         rs.getString("tussenvoegsel"), rs.getString("achternaam"), rs.getDate("geboortedatum"));
+                Adres adres = adao.findByReiziger(reiziger);
+                reiziger.setAdres(adres);
+                return reiziger;
             }
         }
         return null;
@@ -70,9 +97,11 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             ps.setDate(1, date);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Reiziger r = new Reiziger(rs.getInt("reiziger_id"), rs.getString("voorletters"),
+                Reiziger reiziger = new Reiziger(rs.getInt("reiziger_id"), rs.getString("voorletters"),
                         rs.getString("tussenvoegsel"), rs.getString("achternaam"), rs.getDate("geboortedatum"));
-                reizigers.add(r);
+                Adres adres = adao.findByReiziger(reiziger);
+                reiziger.setAdres(adres);
+                reizigers.add(reiziger);
             }
         }
         return reizigers;
@@ -85,9 +114,11 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         try (Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                Reiziger r = new Reiziger(rs.getInt("reiziger_id"), rs.getString("voorletters"),
+                Reiziger reiziger = new Reiziger(rs.getInt("reiziger_id"), rs.getString("voorletters"),
                         rs.getString("tussenvoegsel"), rs.getString("achternaam"), rs.getDate("geboortedatum"));
-                reizigers.add(r);
+                Adres adres = adao.findByReiziger(reiziger);
+                reiziger.setAdres(adres);
+                reizigers.add(reiziger);
             }
         }
         return reizigers;
