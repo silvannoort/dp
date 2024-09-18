@@ -1,4 +1,6 @@
-package nl.hu.dp.model;
+package nl.hu.dp.model.reiziger;
+
+import nl.hu.dp.model.adres.Adres;
 
 import java.sql.Date;
 

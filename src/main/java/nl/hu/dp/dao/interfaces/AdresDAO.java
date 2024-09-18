@@ -1,7 +1,7 @@
-package nl.hu.dp.dao;
+package nl.hu.dp.dao.interfaces;
 
-import nl.hu.dp.model.Adres;
-import nl.hu.dp.model.Reiziger;
+import nl.hu.dp.model.adres.Adres;
+import nl.hu.dp.model.reiziger.Reiziger;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,12 +13,7 @@ public interface AdresDAO {
 
     boolean delete(Adres adres) throws SQLException;
 
-    Adres findByReiziger(Reiziger r) throws SQLException;
+    Adres findByReiziger(Reiziger reiziger) throws SQLException;
 
     List<Adres> findAll() throws SQLException;
 }
-
-
-
-
-

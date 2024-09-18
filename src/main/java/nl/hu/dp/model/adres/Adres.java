@@ -1,11 +1,14 @@
-package nl.hu.dp.model;
+package nl.hu.dp.model.adres;
+
+import nl.hu.dp.model.reiziger.Reiziger;
 
 public class Adres {
     private int id;
     private String postcode;
     private String huisnummer;
     private String straat;
-    private String woonplaats;private Reiziger reiziger;
+    private String woonplaats;
+    private Reiziger reiziger;  // One-to-one relationship
 
     public Adres(int id, String postcode, String huisnummer, String straat, String woonplaats, Reiziger reiziger) {
         this.id = id;
@@ -71,7 +74,3 @@ public class Adres {
                 id, postcode, huisnummer, straat, woonplaats);
     }
 }
-
-
-
-
