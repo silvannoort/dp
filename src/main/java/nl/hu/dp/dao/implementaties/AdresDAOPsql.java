@@ -55,6 +55,11 @@ public class AdresDAOPsql implements AdresDAO {
     }
 
     @Override
+    public Adres findById(int id) throws SQLException {
+        return null;
+    }
+
+    @Override
     public Adres findByReiziger(Reiziger reiziger) throws SQLException {
         String query = "SELECT * FROM adres WHERE reiziger_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(query)) {

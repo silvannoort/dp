@@ -13,6 +13,8 @@ public interface AdresDAO {
 
     boolean delete(Adres adres) throws SQLException;
 
+    Adres findById(int id) throws SQLException;
+
     Adres findByReiziger(Reiziger reiziger) throws SQLException;
 
     List<Adres> findAll() throws SQLException;
