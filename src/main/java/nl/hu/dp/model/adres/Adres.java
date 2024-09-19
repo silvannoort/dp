@@ -2,13 +2,34 @@ package nl.hu.dp.model.adres;
 
 import nl.hu.dp.model.reiziger.Reiziger;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "adres")
 public class Adres {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "adres_id")
     private int id;
+
+    @Column(name = "postcode")
     private String postcode;
+
+    @Column(name = "huisnummer")
     private String huisnummer;
+
+    @Column(name = "straat")
     private String straat;
+
+    @Column(name = "woonplaats")
     private String woonplaats;
-    private Reiziger reiziger;  // One-to-one relationship
+
+    @OneToOne
+    @JoinColumn(name = "reiziger_id")
+    private Reiziger reiziger;
+
+
 
     public Adres(int id, String postcode, String huisnummer, String straat, String woonplaats, Reiziger reiziger) {
         this.id = id;
@@ -17,9 +38,12 @@ public class Adres {
         this.straat = straat;
         this.woonplaats = woonplaats;
         this.reiziger = reiziger;
-
-
     }
+
+
+
+    public Adres() {}
+
 
     public int getId() {
         return id;
@@ -59,11 +83,12 @@ public class Adres {
 
     public void setWoonplaats(String woonplaats) {
         this.woonplaats = woonplaats;
+    }
 
-    }
     public Reiziger getReiziger() {
-        return this.reiziger;
+        return reiziger;
     }
+
     public void setReiziger(Reiziger reiziger) {
         this.reiziger = reiziger;
     }

@@ -1,0 +1,8 @@
+nl\hu\dp\dao\implementaties\ReizigerDAOPsql.class
+nl\hu\dp\Main.class
+nl\hu\dp\dao\implementaties\AdresDAOPsql.class
+nl\hu\dp\dao\interfaces\AdresDAO.class
+nl\hu\dp\model\reiziger\Reiziger.class
+nl\hu\dp\dao\implementaties\ReizigerDAOHibernate.class
+nl\hu\dp\dao\interfaces\ReizigerDAO.class
+nl\hu\dp\model\adres\Adres.class
