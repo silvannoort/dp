@@ -19,7 +19,11 @@ public class ReizigerDAOPsql implements ReizigerDAO {
     }
 
     @Override
-    public boolean save(Reiziger reiziger) throws SQLException {
+    public boolean save(Reiziger reiziger) throws SQLException {Reiziger bestaandeReiziger = findById(reiziger.getId());
+        if (bestaandeReiziger != null) {
+            System.out.println("Reiziger met ID " + reiziger.getId() + " bestaat al.");
+            return false;
+        }
         String query = "INSERT INTO reiziger (reiziger_id, voorletters, tussenvoegsel, achternaam, geboortedatum) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, reiziger.getId());

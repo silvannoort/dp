@@ -13,20 +13,20 @@ public class Adres {
     @Column(name = "adres_id")
     private int id;
 
-    @Column(name = "postcode")
+    @Column(name = "postcode", nullable = false)
     private String postcode;
 
-    @Column(name = "huisnummer")
+    @Column(name = "huisnummer", nullable = false)
     private String huisnummer;
 
-    @Column(name = "straat")
+    @Column(name = "straat", nullable = false)
     private String straat;
 
-    @Column(name = "woonplaats")
+    @Column(name = "woonplaats", nullable = false)
     private String woonplaats;
 
     @OneToOne
-    @JoinColumn(name = "reiziger_id")
+    @JoinColumn(name = "reiziger_id", nullable = false)
     private Reiziger reiziger;
 
 

@@ -9,6 +9,7 @@
 
         <class>nl.hu.dp.model.reiziger.Reiziger</class>
         <class>nl.hu.dp.model.adres.Adres</class>
+        <class>nl.hu.dp.model.ov.OVChipkaart</class>
 
 
         <properties>

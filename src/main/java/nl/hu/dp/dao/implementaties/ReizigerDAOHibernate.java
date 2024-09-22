@@ -18,7 +18,13 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
     @Override
     public boolean save(Reiziger reiziger) {
         em.getTransaction().begin();
-        em.persist(reiziger);
+
+        Reiziger existingReiziger = em.find(Reiziger.class, reiziger.getId());
+        if (existingReiziger != null) {
+            em.merge(reiziger);
+        } else {
+            em.persist(reiziger);
+        }
         em.getTransaction().commit();
         return true;
     }

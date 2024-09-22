@@ -1,9 +1,11 @@
 package nl.hu.dp.model.reiziger;
 
 import nl.hu.dp.model.adres.Adres;
+import nl.hu.dp.model.ov.OVChipkaart;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "reiziger")
@@ -14,13 +16,13 @@ public class Reiziger {
     @Column(name = "reiziger_id")
     private int id;
 
-    @Column(name = "voorletters")
+    @Column(name = "voorletters", nullable = false)
     private String voorletters;
 
     @Column(name = "tussenvoegsel")
     private String tussenvoegsel;
 
-    @Column(name = "achternaam")
+    @Column(name = "achternaam", nullable = false)
     private String achternaam;
 
     @Column(name = "geboortedatum")
@@ -28,6 +30,9 @@ public class Reiziger {
 
     @OneToOne(mappedBy = "reiziger", cascade = CascadeType.ALL, orphanRemoval = true)
     private Adres adres;
+
+    @OneToMany(mappedBy = "reiziger", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OVChipkaart> ovChipkaarten;
 
     public Reiziger() {}
 
@@ -38,7 +43,6 @@ public class Reiziger {
         this.achternaam = achternaam;
         this.geboortedatum = geboortedatum;
     }
-
 
     public int getId() {
         return id;
@@ -86,6 +90,14 @@ public class Reiziger {
 
     public void setAdres(Adres adres) {
         this.adres = adres;
+    }
+
+    public List<OVChipkaart> getOvChipkaarten() {
+        return ovChipkaarten;
+    }
+
+    public void setOvChipkaarten(List<OVChipkaart> ovChipkaarten) {
+        this.ovChipkaarten = ovChipkaarten;
     }
 
     @Override
