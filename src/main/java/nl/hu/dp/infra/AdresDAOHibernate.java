@@ -1,8 +1,8 @@
-package nl.hu.dp.dao.implementaties;
+package nl.hu.dp.infra;
 
-import nl.hu.dp.dao.interfaces.AdresDAO;
-import nl.hu.dp.model.adres.Adres;
-import nl.hu.dp.model.reiziger.Reiziger;
+import nl.hu.dp.domein.interfaces.AdresDAO;
+import nl.hu.dp.domein.Adres;
+import nl.hu.dp.domein.Reiziger;
 
 import javax.persistence.EntityManager;
 import java.util.List;

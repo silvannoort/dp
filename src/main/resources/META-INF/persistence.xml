@@ -7,9 +7,9 @@
     <persistence-unit name="reizigerUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>nl.hu.dp.model.reiziger.Reiziger</class>
-        <class>nl.hu.dp.model.adres.Adres</class>
-        <class>nl.hu.dp.model.ov.OVChipkaart</class>
+        <class>nl.hu.dp.domein.Reiziger</class>
+        <class>nl.hu.dp.domein.Adres</class>
+        <class>nl.hu.dp.domein.OVChipkaart</class>
 
 
         <properties>
@@ -22,7 +22,6 @@
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
         </properties>
     </persistence-unit>

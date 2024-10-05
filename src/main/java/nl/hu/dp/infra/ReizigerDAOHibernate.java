@@ -1,7 +1,7 @@
-package nl.hu.dp.dao.implementaties;
+package nl.hu.dp.infra;
 
-import nl.hu.dp.dao.interfaces.ReizigerDAO;
-import nl.hu.dp.model.reiziger.Reiziger;
+import nl.hu.dp.domein.interfaces.ReizigerDAO;
+import nl.hu.dp.domein.Reiziger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -20,11 +20,13 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
         em.getTransaction().begin();
 
         Reiziger existingReiziger = em.find(Reiziger.class, reiziger.getId());
+
         if (existingReiziger != null) {
             em.merge(reiziger);
         } else {
             em.persist(reiziger);
         }
+
         em.getTransaction().commit();
         return true;
     }
@@ -52,7 +54,7 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
 
     @Override
     public List<Reiziger> findByGbdatum(Date geboortedatum) {
-        TypedQuery<Reiziger> query = em.createQuery("FROM Reiziger WHERE geboortedatum = :gbdatum", Reiziger.class);
+        TypedQuery<Reiziger> query = em.createQuery("FROM Reiziger r WHERE r.geboortedatum = :gbdatum", Reiziger.class);
         query.setParameter("gbdatum", geboortedatum);
         return query.getResultList();
     }

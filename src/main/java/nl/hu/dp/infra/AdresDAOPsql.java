@@ -1,8 +1,8 @@
-package nl.hu.dp.dao.implementaties;
+package nl.hu.dp.infra;
 
-import nl.hu.dp.dao.interfaces.AdresDAO;
-import nl.hu.dp.model.adres.Adres;
-import nl.hu.dp.model.reiziger.Reiziger;
+import nl.hu.dp.domein.interfaces.AdresDAO;
+import nl.hu.dp.domein.Adres;
+import nl.hu.dp.domein.Reiziger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -76,14 +76,22 @@ public class AdresDAOPsql implements AdresDAO {
 
     @Override
     public List<Adres> findAll() throws SQLException {
-        String query = "SELECT * FROM adres";
+        String query = "SELECT a.*, r.reiziger_id, r.voorletters, r.tussenvoegsel, r.achternaam, r.geboortedatum " +
+                "FROM adres a " +
+                "JOIN reiziger r ON a.reiziger_id = r.reiziger_id";
         List<Adres> adressen = new ArrayList<>();
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+
+                Reiziger reiziger = new Reiziger(rs.getInt("reiziger_id"), rs.getString("voorletters"),
+                        rs.getString("tussenvoegsel"), rs.getString("achternaam"),
+                        rs.getDate("geboortedatum"));
+
+
                 Adres adres = new Adres(rs.getInt("adres_id"), rs.getString("postcode"),
                         rs.getString("huisnummer"), rs.getString("straat"),
-                        rs.getString("woonplaats"), null);
+                        rs.getString("woonplaats"), reiziger);
                 adressen.add(adres);
             }
         }

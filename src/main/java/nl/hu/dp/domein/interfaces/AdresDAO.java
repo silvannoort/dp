@@ -1,7 +1,7 @@
-package nl.hu.dp.dao.interfaces;
+package nl.hu.dp.domein.interfaces;
 
-import nl.hu.dp.model.adres.Adres;
-import nl.hu.dp.model.reiziger.Reiziger;
+import nl.hu.dp.domein.Adres;
+import nl.hu.dp.domein.Reiziger;
 
 import java.sql.SQLException;
 import java.util.List;

@@ -1,7 +1,4 @@
-package nl.hu.dp.model.reiziger;
-
-import nl.hu.dp.model.adres.Adres;
-import nl.hu.dp.model.ov.OVChipkaart;
+package nl.hu.dp.domein;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -12,7 +9,7 @@ import java.util.List;
 public class Reiziger {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reiziger_id")
     private int id;
 
@@ -28,13 +25,21 @@ public class Reiziger {
     @Column(name = "geboortedatum")
     private Date geboortedatum;
 
-    @OneToOne(mappedBy = "reiziger", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "reiziger", cascade = CascadeType.ALL)
     private Adres adres;
 
     @OneToMany(mappedBy = "reiziger", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OVChipkaart> ovChipkaarten;
 
+
     public Reiziger() {}
+
+    public Reiziger(String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {
+        this.voorletters = voorletters;
+        this.tussenvoegsel = tussenvoegsel;
+        this.achternaam = achternaam;
+        this.geboortedatum = geboortedatum;
+    }
 
     public Reiziger(int id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {
         this.id = id;
@@ -43,6 +48,7 @@ public class Reiziger {
         this.achternaam = achternaam;
         this.geboortedatum = geboortedatum;
     }
+
 
     public int getId() {
         return id;

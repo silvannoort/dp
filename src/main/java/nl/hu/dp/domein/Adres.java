@@ -1,6 +1,4 @@
-package nl.hu.dp.model.adres;
-
-import nl.hu.dp.model.reiziger.Reiziger;
+package nl.hu.dp.domein;
 
 import javax.persistence.*;
 
@@ -9,7 +7,7 @@ import javax.persistence.*;
 public class Adres {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "adres_id")
     private int id;
 
@@ -25,10 +23,18 @@ public class Adres {
     @Column(name = "woonplaats", nullable = false)
     private String woonplaats;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "reiziger_id", nullable = false)
     private Reiziger reiziger;
 
+
+    public Adres(String postcode, String huisnummer, String straat, String woonplaats, Reiziger reiziger) {
+        this.postcode = postcode;
+        this.huisnummer = huisnummer;
+        this.straat = straat;
+        this.woonplaats = woonplaats;
+        this.reiziger = reiziger;
+    }
 
 
     public Adres(int id, String postcode, String huisnummer, String straat, String woonplaats, Reiziger reiziger) {
@@ -42,9 +48,10 @@ public class Adres {
 
 
 
-    public Adres() {}
 
+    public Adres()
 
+    {}
     public int getId() {
         return id;
     }

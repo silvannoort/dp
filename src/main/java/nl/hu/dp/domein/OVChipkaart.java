@@ -1,6 +1,4 @@
-package nl.hu.dp.model.ov;
-
-import nl.hu.dp.model.reiziger.Reiziger;
+package nl.hu.dp.domein;
 
 import javax.persistence.*;
 import java.sql.Date;

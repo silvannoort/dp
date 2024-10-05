@@ -1,12 +1,16 @@
 package nl.hu.dp;
 
-import nl.hu.dp.dao.implementaties.*;
-import nl.hu.dp.dao.interfaces.AdresDAO;
-import nl.hu.dp.dao.interfaces.ReizigerDAO;
-import nl.hu.dp.dao.interfaces.OVChipkaartDAO;
-import nl.hu.dp.model.adres.Adres;
-import nl.hu.dp.model.reiziger.Reiziger;
-import nl.hu.dp.model.ov.OVChipkaart;
+
+import nl.hu.dp.infra.AdresDAOPsql;
+import nl.hu.dp.infra.OVChipkaartDAOHibernate;
+import nl.hu.dp.infra.ReizigerDAOHibernate;
+import nl.hu.dp.infra.ReizigerDAOPsql;
+import nl.hu.dp.domein.interfaces.AdresDAO;
+import nl.hu.dp.domein.interfaces.ReizigerDAO;
+import nl.hu.dp.domein.interfaces.OVChipkaartDAO;
+import nl.hu.dp.domein.Adres;
+import nl.hu.dp.domein.Reiziger;
+import nl.hu.dp.domein.OVChipkaart;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -51,17 +55,22 @@ public class Main {
     private static void testAdresDAO(AdresDAO adao, ReizigerDAO rdao) throws SQLException {
         System.out.println("\n---------- Test AdresDAO -------------");
 
+        Reiziger reiziger = new Reiziger(200, "J", "", "Doe", java.sql.Date.valueOf("1990-01-01"));
+        rdao.save(reiziger);
+
+
+        Adres adres = new Adres("1234AB", "56", "Straatnaam", "Utrecht", reiziger);
+        reiziger.setAdres(adres); // Stel de relatie van beide kanten in
+        adao.save(adres);
+
         List<Adres> adressen = adao.findAll();
         System.out.println("[Test] AdresDAO.findAll() geeft de volgende adressen:");
         for (Adres a : adressen) {
-            System.out.println(a.getReiziger() + ", " + a);
+            System.out.println(a.getReiziger() != null ? a.getReiziger() : "Geen reiziger gekoppeld");
+            System.out.println(a);
         }
 
-        Reiziger reiziger = new Reiziger(100, "J", "", "Doe", java.sql.Date.valueOf("1990-01-01"));
-        rdao.save(reiziger);
 
-        Adres adres = new Adres(100, "1234AB", "56", "Straatnaam", "Utrecht", reiziger);
-        adao.save(adres);
 
         adres.setWoonplaats("Amsterdam");
         adao.update(adres);

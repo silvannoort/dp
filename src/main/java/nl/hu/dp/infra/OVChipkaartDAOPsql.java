@@ -1,8 +1,8 @@
-package nl.hu.dp.dao.implementaties;
+package nl.hu.dp.infra;
 
-import nl.hu.dp.dao.interfaces.OVChipkaartDAO;
-import nl.hu.dp.model.ov.OVChipkaart;
-import nl.hu.dp.model.reiziger.Reiziger;
+import nl.hu.dp.domein.interfaces.OVChipkaartDAO;
+import nl.hu.dp.domein.OVChipkaart;
+import nl.hu.dp.domein.Reiziger;
 
 import java.sql.*;
 import java.util.ArrayList;
