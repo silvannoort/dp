@@ -2,12 +2,15 @@ package nl.hu.dp.domein;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "ov_chipkaart")
 public class OVChipkaart {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "kaart_nummer", nullable = false)
     private int kaartNummer;
 
@@ -24,6 +27,14 @@ public class OVChipkaart {
     @JoinColumn(name = "reiziger_id", nullable = false)
     private Reiziger reiziger;
 
+    @ManyToMany
+    @JoinTable(
+            name = "ov_chipkaart_product",
+            joinColumns = @JoinColumn(name = "kaart_nummer"),
+            inverseJoinColumns = @JoinColumn(name = "product_nummer")
+    )  private List<Product> producten = new ArrayList<>();
+
+
     public OVChipkaart() {
     }
 
@@ -34,6 +45,7 @@ public class OVChipkaart {
         this.saldo = saldo;
         this.reiziger = reiziger;
     }
+
 
     public int getKaartNummer() {
         return kaartNummer;
@@ -73,6 +85,28 @@ public class OVChipkaart {
 
     public void setReiziger(Reiziger reiziger) {
         this.reiziger = reiziger;
+    }
+
+    public List<Product> getProducten() {
+        return producten;
+    }
+
+    public void setProducten(List<Product> producten) {
+        this.producten = producten;
+    }
+
+    public void voegProductToe(Product product) {
+        if (!producten.contains(product)) {
+            producten.add(product);
+            product.voegChipkaartToe(this);
+        }
+    }
+
+    public void verwijderProduct(Product product) {
+        if (producten.contains(product)) {
+            producten.remove(product);
+            product.verwijderChipkaart(this);
+        }
     }
 
     @Override

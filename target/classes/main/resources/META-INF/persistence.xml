@@ -7,9 +7,9 @@
     <persistence-unit name="reizigerUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>nl.hu.dp.model.Reiziger</class>
-        <class>nl.hu.dp.model.Adres</class>
-        <class>nl.hu.dp.model.OVChipkaart</class>
+        <class>nl.hu.dp.domein.Reiziger</class>
+        <class>nl.hu.dp.domein.Adres</class>
+        <class>nl.hu.dp.domein.OVChipkaart</class>
 
 
         <properties>

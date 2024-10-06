@@ -1,8 +1,8 @@
 package nl.hu.dp.infra;
 
-import nl.hu.dp.domein.interfaces.OVChipkaartDAO;
 import nl.hu.dp.domein.OVChipkaart;
 import nl.hu.dp.domein.Reiziger;
+import nl.hu.dp.domein.interfaces.OVChipkaartDAO;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -17,12 +17,9 @@ public class OVChipkaartDAOHibernate implements OVChipkaartDAO {
     @Override
     public boolean save(OVChipkaart ovChipkaart) {
         try {
-            em.getTransaction().begin();
             em.persist(ovChipkaart);
-            em.getTransaction().commit();
             return true;
         } catch (Exception e) {
-            em.getTransaction().rollback();
             e.printStackTrace();
             return false;
         }
@@ -31,12 +28,9 @@ public class OVChipkaartDAOHibernate implements OVChipkaartDAO {
     @Override
     public boolean update(OVChipkaart ovChipkaart) {
         try {
-            em.getTransaction().begin();
             em.merge(ovChipkaart);
-            em.getTransaction().commit();
             return true;
         } catch (Exception e) {
-            em.getTransaction().rollback();
             e.printStackTrace();
             return false;
         }
@@ -45,20 +39,19 @@ public class OVChipkaartDAOHibernate implements OVChipkaartDAO {
     @Override
     public boolean delete(OVChipkaart ovChipkaart) {
         try {
-            em.getTransaction().begin();
             em.remove(em.contains(ovChipkaart) ? ovChipkaart : em.merge(ovChipkaart));
-            em.getTransaction().commit();
             return true;
         } catch (Exception e) {
-            em.getTransaction().rollback();
             e.printStackTrace();
             return false;
         }
     }
 
     @Override
-    public OVChipkaart findById(int id) {
-        return em.find(OVChipkaart.class, id);
+    public List<OVChipkaart> findByReiziger(Reiziger reiziger) {
+        return em.createQuery("FROM OVChipkaart WHERE reiziger = :reiziger", OVChipkaart.class)
+                .setParameter("reiziger", reiziger)
+                .getResultList();
     }
 
     @Override
@@ -67,9 +60,7 @@ public class OVChipkaartDAOHibernate implements OVChipkaartDAO {
     }
 
     @Override
-    public List<OVChipkaart> findByReiziger(Reiziger reiziger) {
-        return em.createQuery("FROM OVChipkaart WHERE reiziger = :reiziger", OVChipkaart.class)
-                .setParameter("reiziger", reiziger)
-                .getResultList();
+    public OVChipkaart findById(int id) {
+        return em.find(OVChipkaart.class, id);
     }
 }
